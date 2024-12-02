@@ -1,0 +1,2 @@
+require("tingeytime")
+print("hello")
