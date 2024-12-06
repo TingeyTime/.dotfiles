@@ -13,4 +13,14 @@ vim.opt.rtp:prepend(lazypath)
 
 require("vim-options")
 require("vim-set")
+
+-- local plugins_dir = lazypath .. "lua/plugins"
+-- local plugins_files = vim.fn.glob(plugins_dir .."/*.lua", true, true)
+-- local filtered_plugins = {}
+-- for _, file in ipairs(plugins_files) do
+--     if not file:match("%.old%.lua$") then
+--         table.insert(filtered_plugins, file)
+--     end
+-- end
+-- require("lazy").setup(filtered_plugins)
 require("lazy").setup("plugins")

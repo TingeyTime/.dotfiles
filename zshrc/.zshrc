@@ -58,3 +58,6 @@ alias ke="kubectl exec -it"
 alias kcns='kubectl config set-context --current --namespace'
 alias podname=''
 
+export PATH="/usr/local/bin:$PATH"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
