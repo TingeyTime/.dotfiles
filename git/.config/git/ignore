@@ -1,0 +1,5 @@
+# Ignore Adhoc files
+.adhoc
+
+# Ignore virtual environments
+.venv
