@@ -3,3 +3,7 @@ tmux/.tmux/plugins/
 raycast
 fzf
 history.txt
+
+## NVIM
+
+lazy-lock.json
