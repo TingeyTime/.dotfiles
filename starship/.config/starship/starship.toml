@@ -1,66 +1,131 @@
-add_newline = false
-# A minimal left prompt
-format = """$directory$character"""
-palette = "catppuccin_mocha"
-# move the rest of the prompt to the right
-right_format = """$all"""
-command_timeout = 1000
+[buf]
+format = '(with [$symbol($version )]($style))'
 
-[character]
-vicmd_symbol = "[N] >>>"
-success_symbol = '[➜](bold green)'
+[bun]
+format = '(via [$symbol($version )]($style))'
 
-[directory.substitutions]
-'~/tests/starship-custom' = 'work-project'
+[c]
+format = '(via [$symbol($version(-$name) )]($style))'
 
-[git_branch]
-format =  '[$symbol$branch(:$remote_branch)]($style)'
+[cpp]
+format = '(via [$symbol($version(-$name) )]($style))'
 
-[aws]
-format = '[$symbol(profile: "$profile" )(\(region: $region\) )]($style)'
-disabled = false
-style = 'bold blue'
-symbol = " "
+[cmake]
+format = '(via [$symbol($version )]($style))'
+
+[cobol]
+format = '(via [$symbol($version )]($style))'
+
+[crystal]
+format = '(via [$symbol($version )]($style))'
+
+[daml]
+format = '(via [$symbol($version )]($style))'
+
+[dart]
+format = '(via [$symbol($version )]($style))'
+
+[deno]
+format = '(via [$symbol($version )]($style))'
+
+[dotnet]
+format = '(via [$symbol($version )(🎯 $tfm )]($style))'
+
+[elixir]
+format = '(via [$symbol($version \(OTP $otp_version\) )]($style))'
+
+[elm]
+format = '(via [$symbol($version )]($style))'
+
+[erlang]
+format = '(via [$symbol($version )]($style))'
+
+[fennel]
+format = '(via [$symbol($version )]($style))'
+
+[gleam]
+format = '(via [$symbol($version )]($style))'
 
 [golang]
-format = '[ ](bold cyan)'
+format = '(via [$symbol($version )]($style))'
 
-[kubernetes]
-symbol = '☸ '
-disabled = true
-detect_files = ['Dockerfile']
-format = '[$symbol$context( \($namespace\))]($style) '
-contexts = [
-  { context_pattern = "arn:aws:eks:us-west-2:577926974532:cluster/zd-pvc-omer", style = "green", context_alias = "omerxx", symbol = " " },
-]
+[haskell]
+format = '(via [$symbol($version )]($style))'
 
-[docker_context]
-disabled = true
+[helm]
+format = '(via [$symbol($version )]($style))'
 
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
+[java]
+format = '(via [$symbol($version )]($style))'
+
+[julia]
+format = '(via [$symbol($version )]($style))'
+
+[kotlin]
+format = '(via [$symbol($version )]($style))'
+
+[lua]
+format = '(via [$symbol($version )]($style))'
+
+[nim]
+format = '(via [$symbol($version )]($style))'
+
+[nodejs]
+format = '(via [$symbol($version )]($style))'
+
+[ocaml]
+format = '(via [$symbol($version )(\($switch_indicator$switch_name\) )]($style))'
+
+[opa]
+format = '(via [$symbol($version )]($style))'
+
+[package]
+format = '(is [$symbol$version]($style) )'
+
+[perl]
+format = '(via [$symbol($version )]($style))'
+
+[php]
+format = '(via [$symbol($version )]($style))'
+
+[purescript]
+format = '(via [$symbol($version )]($style))'
+
+[python]
+format = '(via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style))'
+
+[quarto]
+format = '(via [$symbol($version )]($style))'
+
+[raku]
+format = '(via [$symbol($version-$vm_version )]($style))'
+
+[red]
+format = '(via [$symbol($version )]($style))'
+
+[rlang]
+format = '(via [$symbol($version )]($style))'
+
+[ruby]
+format = '(via [$symbol($version )]($style))'
+
+[rust]
+format = '(via [$symbol($version )]($style))'
+
+[scala]
+format = '(via [$symbol($version )]($style))'
+
+[swift]
+format = '(via [$symbol($version )]($style))'
+
+[typst]
+format = '(via [$symbol($version )]($style))'
+
+[vagrant]
+format = '(via [$symbol($version )]($style))'
+
+[vlang]
+format = '(via [$symbol($version )]($style))'
+
+[zig]
+format = '(via [$symbol($version )]($style))'
