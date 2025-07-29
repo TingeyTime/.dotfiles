@@ -23,4 +23,8 @@ require("vim-set")
 --     end
 -- end
 -- require("lazy").setup(filtered_plugins)
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+    rocks = {
+        enabled = false,
+    },
+})

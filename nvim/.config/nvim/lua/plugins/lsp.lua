@@ -28,6 +28,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "rust_analyzer",
+                "pyright",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -102,5 +103,14 @@ return {
                 prefix = "",
             },
         })
+
+        -- Keymaps
+        local keymap = vim.keymap.set
+        local opts = { noremap = true, silent = true }
+
+        keymap("n", "gl", vim.diagnostic.open_float, opts)
+        keymap("n", "[d", vim.diagnostic.goto_prev, opts)
+        keymap("n", "]d", vim.diagnostic.goto_next, opts)
+
     end
 }

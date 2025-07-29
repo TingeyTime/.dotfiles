@@ -3,3 +3,5 @@
 
 # Ignore virtual environments
 .venv
+.ms_venv
+.ms-venv
