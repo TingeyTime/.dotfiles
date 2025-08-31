@@ -1,0 +1,17 @@
+
+
+# Commit Format:
+# <type>(<scope>): <summary>
+#
+# Recommended types:
+#   feat     – a new feature
+#   fix      – a bug fix
+#   docs     – documentation only
+#   style    – formatting, missing semicolons, etc.
+#   refactor – code change that isn't a fix or feat
+#   perf     – performance improvement
+#   test     – adding or refactoring tests
+#   chore    – build, CI, config, etc.
+#
+# Example:
+# feat(crm): add summer activities dropdown to profile page
