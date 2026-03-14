@@ -1,4 +1,19 @@
---verbose
---target=$HOME/.config
+--verbose=2
 --restow
---ignore='.DS_Store|.gitignore|LICENSE|README\.md|setup_.*\.sh|\.zshrc'
+--target=$HOME/.config
+--no-folding
+
+# Ignore repo/internal stuff (Perl regex)
+--ignore='(^|/)\.git$'
+--ignore='(^|/)\.DS_Store$'
+--ignore='(^|/)\.gitignore$'
+--ignore='^LICENSE$'
+--ignore='^README\.md$'
+--ignore='^setup_.*\.sh$'
+
+# Keep zshrc unique per machine
+--ignore='^\.zshrc$'
+
+# Ignore install/uninstall scripts
+--ignore='^install\.sh$'
+--ignore='^uninstall\.sh$'

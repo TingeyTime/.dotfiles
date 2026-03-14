@@ -2,43 +2,43 @@
 
 ## Introduction
 
-Welcome to my dotfiles repository! This project is designed to manage and share configuration files across multiple devices and operating systems, including Linux, macOS, and Windows/WSL. The repository leverages GNU stow to simplify the process of linking configuration files to their appropriate system directories, ensuring a consistent and portable environment across machines.
+Welcome to my dotfiles repository! This project manages configuration files across multiple devices and operating systems (Linux, macOS, Windows/WSL). It uses GNU Stow to symlink config files to their appropriate system directories.
 
-Dotfiles are essential for developers and power users, as they store personalized configurations for various tools and programs. By centralizing these configurations, you can quickly set up a new environment or restore your settings after a system change.
+## Quick Start
 
-## Getting Started
+```bash
+# Run the interactive stow manager
+./stow_configs.sh
+```
 
-### Prerequisites
+## Prerequisites
 
-Before you begin, ensure you have the following installed on your system:
+1. **GNU Stow** - via your system's package manager:
+   - Linux: `sudo apt install stow` (Debian/Ubuntu) or `sudo pacman -S stow` (Arch)
+   - macOS: `brew install stow`
+   - Windows/WSL: `scoop install stow`
+2. **Git** - for version control
 
-1. Install **GNU Stow**: via your system's package manager:
-    - Linux: `sudo apt install stow` (Debian/Ubuntu) ro `sudo pacman -S stow` (Arch).
-    - macOS: `brew install stow`.
-    - Windows/WSL: Use package manager like `choco` or `scoop` (`scoop install stow`)
-2. Clone this **Git** repository:
-    - You should be in your `$HOME` directory
-        ```bash
-        git clone https://github.com/TingeyTime/dotfiles.git
-        cd dotfiles
-        ```
+## Usage
 
-### Installation and Setup
+### Interactive Mode (Recommended)
 
-#### Linux/macOS
+Run the interactive stow manager:
+```bash
+./stow_configs.sh
+```
 
-1. Clone the repository to your home directory or another preferred location.
-1. Navigate to the repository folder.
-1. Use GNU stow to link configurations:
-    ```bash
-    stow nvim
-    stow tmux
-    stow git
-    ```
-    This will create symbolic links for the specified configuration files in your home directory.
+This will:
+1. Detect which tools are installed on your system
+2. Show available packages with their status
+3. Allow you to select/deselect tools to stow
+4. Install or uninstall selected tools
 
-#### Windows/WSL
+### Manual Stow
 
-1. Clone the repository into your WSL or home directory.
-1. Use GNU stow as you would on Linux/macOS to link configurations.
-1. For PowerShell configurations, ensure you have administrative privileges when necessary.
+You can also stow individual packages manually:
+```bash
+stow nvim
+stow tmux
+stow git
+```
