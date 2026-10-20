@@ -76,4 +76,13 @@ Commit `lazy-lock.json` if the smoke test passes. To roll back, use `:Lazy resto
 
 `nvim` 0.11+, `git`, a C compiler (treesitter parsers), `make` (LuaSnip), `ripgrep` (telescope grep), `node`/`npm` (mason installs pyright with it), and a [Nerd Font](https://www.nerdfonts.com/).
 
+### Windows
+
+`install.ps1` links this folder to `%LOCALAPPDATA%\nvim`, where Neovim looks on Windows. CI runs the smoke test there too. Two dependencies differ:
+
+- **C compiler:** treesitter needs `gcc`, `clang`, or `zig` on `PATH`. The simplest is `winget install zig.zig`.
+- **make:** optional. Without it, LuaSnip skips its `jsregexp` build, which only adds snippet transformations.
+
+The tmux navigation keys (`<C-h/j/k/l>`) still move between Neovim splits.
+
 GitHub Copilot was removed when the subscription ended. To add it back, create `lua/plugins/copilot.lua` returning `{ "github/copilot.vim" }`.

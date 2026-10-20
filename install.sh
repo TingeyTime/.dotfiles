@@ -9,7 +9,7 @@ set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG="$HOME/.config"  # fixed, not $XDG_CONFIG_HOME: tmux.conf and bashrc.sh reference it
-TOOLS="bash git nvim starship tmux"
+TOOLS="bash git nvim powershell starship tmux"
 DEPENDENCIES="git nvim tmux starship fzf rg node lazygit gh"
 SOURCE_LINE="[ -f \"$CONFIG/bash/bashrc.sh\" ] && . \"$CONFIG/bash/bashrc.sh\""
 

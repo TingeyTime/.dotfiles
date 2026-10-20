@@ -1,6 +1,6 @@
 # Git
 
-Global git configuration, linked to `~/.config/git`. Git reads `~/.config/git/config` and `~/.config/git/ignore` automatically, so no `~/.gitconfig` is needed.
+Global git configuration, linked to `~/.config/git`. Git reads `~/.config/git/config` and `~/.config/git/ignore` automatically, so no `~/.gitconfig` is needed. This includes Git for Windows, where `~` is `%USERPROFILE%`.
 
 ## Files
 

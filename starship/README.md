@@ -1,6 +1,6 @@
 # Starship
 
-Prompt configuration for [starship](https://starship.rs), linked to `~/.config/starship`. Because it lives in a subfolder rather than at `~/.config/starship.toml`, the shell must set `STARSHIP_CONFIG`. [`bash/bashrc.sh`](../bash/bashrc.sh) does this.
+Prompt configuration for [starship](https://starship.rs), linked to `~/.config/starship`. Because it lives in a subfolder rather than at `~/.config/starship.toml`, the shell must set `STARSHIP_CONFIG`. [`bash/bashrc.sh`](../bash/bashrc.sh) and [`powershell/profile.ps1`](../powershell/profile.ps1) do this.
 
 ## Prompt
 

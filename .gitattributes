@@ -1,0 +1,3 @@
+# Check out text files with LF on every OS. Otherwise a Windows checkout gets
+# CRLF, and install.sh breaks when run from WSL or Git Bash.
+* text=auto eol=lf
