@@ -1,4 +1,0 @@
---verbose
---target=$HOME/.config
---restow
---ignore='.DS_Store|.gitignore|LICENSE|README\.md|setup_.*\.sh|\.zshrc'

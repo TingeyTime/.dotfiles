@@ -1,44 +1,31 @@
 # Dotfiles
 
-## Introduction
+My configuration for the terminal tools I use daily, on Linux and macOS.
 
-Welcome to my dotfiles repository! This project is designed to manage and share configuration files across multiple devices and operating systems, including Linux, macOS, and Windows/WSL. The repository leverages GNU stow to simplify the process of linking configuration files to their appropriate system directories, ensuring a consistent and portable environment across machines.
+| Folder | Tool | Linked to |
+|---|---|---|
+| [`bash`](bash) | Aliases and prompt setup | `~/.config/bash` |
+| [`git`](git) | Global git config, ignore list, commit template | `~/.config/git` |
+| [`nvim`](nvim) | Neovim with lazy.nvim | `~/.config/nvim` |
+| [`starship`](starship) | Shell prompt | `~/.config/starship` |
+| [`tmux`](tmux) | Tmux with TPM | `~/.config/tmux` |
 
-Dotfiles are essential for developers and power users, as they store personalized configurations for various tools and programs. By centralizing these configurations, you can quickly set up a new environment or restore your settings after a system change.
+Each folder has its own README covering what it configures and what it depends on.
 
-## Getting Started
+## Install
 
-### Prerequisites
+```bash
+git clone https://github.com/TingeyTime/dotfiles.git ~/.dotfiles
+~/.dotfiles/install.sh
+```
 
-Before you begin, ensure you have the following installed on your system:
+`install.sh` is safe to re-run. It:
 
-1. Install **GNU Stow**: via your system's package manager:
-    - Linux: `sudo apt install stow` (Debian/Ubuntu) ro `sudo pacman -S stow` (Arch).
-    - macOS: `brew install stow`.
-    - Windows/WSL: Use package manager like `choco` or `scoop` (`scoop install stow`)
-2. Clone this **Git** repository:
-    - You should be in your `$HOME` directory
-        ```bash
-        git clone https://github.com/TingeyTime/dotfiles.git
-        cd dotfiles
-        ```
+1. Symlinks each folder into `~/.config`, moving any existing real file or directory to `<name>.backup.<timestamp>` first.
+2. Adds one line to `~/.bashrc` that sources `bash/bashrc.sh`.
+3. Clones TPM and installs the tmux plugins.
+4. Lists any missing dependencies. It does not install packages.
 
-### Installation and Setup
+## Machine-local settings
 
-#### Linux/macOS
-
-1. Clone the repository to your home directory or another preferred location.
-1. Navigate to the repository folder.
-1. Use GNU stow to link configurations:
-    ```bash
-    stow nvim
-    stow tmux
-    stow git
-    ```
-    This will create symbolic links for the specified configuration files in your home directory.
-
-#### Windows/WSL
-
-1. Clone the repository into your WSL or home directory.
-1. Use GNU stow as you would on Linux/macOS to link configurations.
-1. For PowerShell configurations, ensure you have administrative privileges when necessary.
+`~/.bashrc` is not tracked, so anything specific to one machine (PATH entries, tokens, tool setup like pyenv) belongs there rather than in this repo.
