@@ -4,14 +4,14 @@
 
 My configuration for the terminal tools I use daily, on Linux, macOS, and Windows.
 
-| Folder | Tool | Linked to |
-|---|---|---|
-| [`bash`](bash) | Aliases and prompt setup | `~/.config/bash` |
-| [`git`](git) | Global git config, ignore list, commit template | `~/.config/git` |
-| [`nvim`](nvim) | Neovim with lazy.nvim, native LSP, and a smoke test | `~/.config/nvim` (Windows: `%LOCALAPPDATA%\nvim`) |
-| [`powershell`](powershell) | PowerShell 7 profile with the bash aliases and prompt | `~/.config/powershell` |
-| [`starship`](starship) | Shell prompt | `~/.config/starship` |
-| [`tmux`](tmux) | Tmux with TPM | `~/.config/tmux` |
+| Folder | Tool | Linked to | Install |
+|---|---|---|---|
+| [`bash`](bash) | Aliases and prompt setup | `~/.config/bash` | Preinstalled on Linux and macOS |
+| [`git`](git) | Global git config, ignore list, commit template | `~/.config/git` | [git-scm.com](https://git-scm.com/downloads) |
+| [`nvim`](nvim) | Neovim with lazy.nvim, native LSP, and a smoke test | `~/.config/nvim` (Windows: `%LOCALAPPDATA%\nvim`) | [neovim.io](https://neovim.io/doc/install/) |
+| [`powershell`](powershell) | PowerShell 7 profile with the bash aliases and prompt | `~/.config/powershell` | [Microsoft Learn](https://learn.microsoft.com/powershell/scripting/install/installing-powershell) |
+| [`starship`](starship) | Shell prompt | `~/.config/starship` | [starship.rs](https://starship.rs/guide/) |
+| [`tmux`](tmux) | Tmux with TPM | `~/.config/tmux` | [tmux wiki](https://github.com/tmux/tmux/wiki/Installing) |
 
 Each folder has its own README covering what it configures, its key bindings, and its dependencies.
 
@@ -61,6 +61,21 @@ Get-Help ./install.ps1          # full usage
 ```
 
 Under WSL, use `install.sh` as on Linux.
+
+### Other dependencies
+
+The configs also use these programs. Each folder's README says which ones it needs.
+
+| Program | Used by | Install |
+|---|---|---|
+| A Nerd Font | Icons in Neovim, tmux, starship, and PowerShell | [nerdfonts.com](https://www.nerdfonts.com/font-downloads) |
+| ripgrep (`rg`) | Neovim telescope grep | [ripgrep](https://github.com/BurntSushi/ripgrep#installation) |
+| Node.js (`node`, `npm`) | Neovim, for mason to install pyright | [nodejs.org](https://nodejs.org/en/download) |
+| Zig (Windows only) | Neovim treesitter, as the C compiler | [ziglang.org](https://ziglang.org/learn/getting-started/) |
+| GitHub CLI (`gh`) | git HTTPS authentication | [GitHub CLI](https://github.com/cli/cli#installation) |
+| lazygit | tmux popup | [lazygit](https://github.com/jesseduffield/lazygit#installation) |
+| fzf | tmux session switcher | [fzf](https://github.com/junegunn/fzf#installation) |
+| IPython | tmux popup | [IPython docs](https://ipython.readthedocs.io/en/stable/install/index.html) |
 
 ## Machine-local settings
 
