@@ -9,6 +9,7 @@ My configuration for the terminal tools I use daily, on Linux and macOS.
 | [`bash`](bash) | Aliases and prompt setup | `~/.config/bash` |
 | [`git`](git) | Global git config, ignore list, commit template | `~/.config/git` |
 | [`nvim`](nvim) | Neovim with lazy.nvim, native LSP, and a smoke test | `~/.config/nvim` |
+| [`powershell`](powershell) | PowerShell 7 profile with the bash aliases and prompt | `~/.config/powershell` |
 | [`starship`](starship) | Shell prompt | `~/.config/starship` |
 | [`tmux`](tmux) | Tmux with TPM | `~/.config/tmux` |
 
@@ -43,6 +44,7 @@ To act on only some tools, name them. `--uninstall` removes only links that poin
 Anything specific to one machine stays out of the repo:
 
 - **Shell:** `~/.bashrc` is untracked. Put PATH entries, tokens, and tool setup (pyenv, Homebrew) there.
+- **PowerShell:** `powershell/profile.local.ps1` is gitignored and loaded last.
 - **Git:** `git/config.local` is gitignored and included last, so it can override your identity, e.g. a work email. See [git/README.md](git/README.md#per-machine-overrides).
 
 ## Design decisions
@@ -60,6 +62,8 @@ CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on every push:
 |---|---|
 | `shellcheck` on shell scripts | `shellcheck -x install.sh bash/*.sh` |
 | `stylua` formatting for Lua (config in `.stylua.toml`) | `stylua --check nvim/` |
+| PSScriptAnalyzer on PowerShell scripts (config in `PSScriptAnalyzerSettings.psd1`) | `Invoke-ScriptAnalyzer -Path install.ps1 -Settings ./PSScriptAnalyzerSettings.psd1` |
+| Pester tests for the PowerShell profile, on Ubuntu and Windows | `Invoke-Pester powershell/test` |
 | `install.sh` on Ubuntu and macOS in a fresh home, run twice | `HOME=$(mktemp -d) ./install.sh` |
 | Neovim smoke test on a fresh plugin install | `nvim --headless -c "luafile nvim/test/smoke.lua"` |
 

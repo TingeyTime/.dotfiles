@@ -2,6 +2,7 @@
 
 # Machine-local overrides
 git/config.local
+powershell/profile.local.ps1
 
 # Installed by TPM
 tmux/plugins/

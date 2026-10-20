@@ -17,6 +17,34 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: 2.3.1
           args: --check nvim/
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: Install-Module PSScriptAnalyzer -RequiredVersion 1.23.0 -Scope CurrentUser -Force
+      - name: PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $results = Get-ChildItem -Recurse -Include *.ps1 -Exclude *.Tests.ps1 |
+            ForEach-Object { Invoke-ScriptAnalyzer -Path $_ -Settings ./PSScriptAnalyzerSettings.psd1 }
+          $results | Format-Table -AutoSize
+          if ($results) { exit 1 }
+
+  powershell:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pester
+        # Windows ships Pester 3, signed by a different publisher
+        run: Install-Module Pester -RequiredVersion 5.6.1 -Scope CurrentUser -Force -SkipPublisherCheck
+      - name: Profile tests
+        run: |
+          Import-Module Pester -RequiredVersion 5.6.1
+          Invoke-Pester powershell/test -CI -Output Detailed
 
   install:
     strategy:
@@ -35,7 +63,7 @@ jobs:
       - name: Verify links, backup, and bashrc hook
         run: |
           HOME="$RUNNER_TEMP/home"
-          for pkg in bash git nvim starship tmux; do
+          for pkg in bash git nvim powershell starship tmux; do
             test "$(readlink "$HOME/.config/$pkg")" = "$PWD/$pkg"
           done
           ls -d "$HOME"/.config/nvim.backup.*
@@ -44,7 +72,7 @@ jobs:
         run: |
           export HOME="$RUNNER_TEMP/home"
           ./install.sh --uninstall
-          for pkg in bash git nvim starship tmux; do
+          for pkg in bash git nvim powershell starship tmux; do
             test ! -e "$HOME/.config/$pkg"
           done
           if grep -q 'bash/bashrc.sh' "$HOME/.bashrc"; then exit 1; fi
