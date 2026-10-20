@@ -30,6 +30,7 @@ jobs:
 
   powershell:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -80,18 +81,84 @@ jobs:
           test -L "$HOME/.config/git" && test -L "$HOME/.config/nvim"
           test ! -e "$HOME/.config/tmux"
 
+  install-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Point USERPROFILE and LOCALAPPDATA at a fresh home
+        run: |
+          $fresh = Join-Path $env:RUNNER_TEMP home
+          New-Item -ItemType Directory -Force (Join-Path $fresh AppData Local nvim) | Out-Null
+          "USERPROFILE=$fresh" >> $env:GITHUB_ENV
+          "LOCALAPPDATA=$(Join-Path $fresh AppData Local)" >> $env:GITHUB_ENV
+      - name: Run install.ps1 twice
+        run: |
+          ./install.ps1
+          ./install.ps1
+      - name: Verify junctions, backup, and profile hook
+        run: |
+          $destinations = @{
+            git        = "$env:USERPROFILE\.config\git"
+            nvim       = "$env:LOCALAPPDATA\nvim"
+            powershell = "$env:USERPROFILE\.config\powershell"
+            starship   = "$env:USERPROFILE\.config\starship"
+          }
+          foreach ($tool in $destinations.Keys) {
+            $item = Get-Item $destinations[$tool]
+            if ($item.LinkType -ne 'Junction' -or $item.ResolveLinkTarget($true).FullName -ne (Join-Path $PWD $tool)) {
+              throw "$tool is not linked: $($item.LinkType) $($item.LinkTarget)"
+            }
+          }
+          if (-not (Get-ChildItem "$env:LOCALAPPDATA\nvim.backup.*")) { throw 'nvim was not backed up' }
+          $hooks = @(Select-String -SimpleMatch '.config\powershell\profile.ps1' $PROFILE.CurrentUserAllHosts)
+          if ($hooks.Count -ne 1) { throw "expected one profile hook, found $($hooks.Count)" }
+      - name: A new pwsh loads the profile
+        run: |
+          $type = pwsh -NonInteractive -Command '(Get-Command gcm).CommandType'
+          if ($type -ne 'Function') { throw "gcm is a $type, not the profile's function" }
+      - name: Refuse tools that don't run on Windows
+        run: |
+          $failed = $false
+          try { ./install.ps1 tmux } catch { $failed = $_ -match 'WSL' }
+          if (-not $failed) { throw 'install.ps1 tmux should fail and point to WSL' }
+      - name: Uninstall, then install a subset
+        run: |
+          ./install.ps1 -Uninstall
+          foreach ($path in "$env:USERPROFILE\.config\git", "$env:LOCALAPPDATA\nvim", "$env:USERPROFILE\.config\powershell") {
+            if (Test-Path $path) { throw "$path is still there" }
+          }
+          if (-not (Test-Path git/config)) { throw 'uninstall deleted files in the repo' }
+          if (Select-String -SimpleMatch '.config\powershell\profile.ps1' $PROFILE.CurrentUserAllHosts) { throw 'profile hook is still there' }
+          ./install.ps1 git nvim
+          if ((Get-Item "$env:USERPROFILE\.config\git").LinkType -ne 'Junction') { throw 'git is not linked' }
+          if ((Get-Item "$env:LOCALAPPDATA\nvim").LinkType -ne 'Junction') { throw 'nvim is not linked' }
+          if (Test-Path "$env:USERPROFILE\.config\powershell") { throw 'powershell should not be linked' }
+
   nvim:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: rhysd/action-setup-vim@v1
         with:
           neovim: true
           version: stable
-      - name: Link config and install locked plugins
+      - name: Link config
+        if: runner.os == 'Linux'
         run: |
           mkdir -p ~/.config
           ln -s "$PWD/nvim" ~/.config/nvim
-          nvim --headless "+Lazy! restore" +qa
+      - name: Link config
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./install.ps1 nvim
+      - name: Install locked plugins
+        run: nvim --headless "+Lazy! restore" +qa
       - name: Smoke test
         run: nvim --headless -c "luafile nvim/test/smoke.lua"

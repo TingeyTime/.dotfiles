@@ -1,7 +1,9 @@
 return {
     "L3MON4D3/LuaSnip",
     version = "v2.*",
-    build = "make install_jsregexp",
+    -- jsregexp only adds snippet transformations, so skip it where there is no
+    -- make (most Windows machines) rather than fail the build
+    build = vim.fn.executable("make") == 1 and "make install_jsregexp" or nil,
     lazy = true,
     dependencies = { "rafamadriz/friendly-snippets" },
     config = function()
