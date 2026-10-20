@@ -30,6 +30,14 @@ git clone https://github.com/TingeyTime/.dotfiles.git ~/.dotfiles
 
 Neovim installs its plugins, at the versions in `nvim/lazy-lock.json`, on first launch.
 
+To act on only some tools, name them. `--uninstall` removes only links that point into this repo (and the `~/.bashrc` line, for `bash`); backups are left for you to restore.
+
+```bash
+./install.sh nvim tmux          # install just these
+./install.sh --uninstall nvim   # remove the nvim link
+./install.sh --uninstall        # remove everything
+```
+
 ## Machine-local settings
 
 Anything specific to one machine stays out of the repo:

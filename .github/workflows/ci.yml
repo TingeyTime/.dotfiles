@@ -40,6 +40,17 @@ jobs:
           done
           ls -d "$HOME"/.config/nvim.backup.*
           test "$(grep -c 'bash/bashrc.sh' "$HOME/.bashrc")" -eq 1
+      - name: Uninstall, then install a subset
+        run: |
+          export HOME="$RUNNER_TEMP/home"
+          ./install.sh --uninstall
+          for pkg in bash git nvim starship tmux; do
+            test ! -e "$HOME/.config/$pkg"
+          done
+          if grep -q 'bash/bashrc.sh' "$HOME/.bashrc"; then exit 1; fi
+          ./install.sh git nvim
+          test -L "$HOME/.config/git" && test -L "$HOME/.config/nvim"
+          test ! -e "$HOME/.config/tmux"
 
   nvim:
     runs-on: ubuntu-latest
