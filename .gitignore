@@ -1,8 +1,7 @@
 .DS_Store
-tmux/.tmux/plugins/
-raycast
-fzf
-history.txt
 
-## NVIM
-*/lazy-lock.json
+# Machine-local overrides
+git/config.local
+
+# Installed by TPM
+tmux/plugins/
