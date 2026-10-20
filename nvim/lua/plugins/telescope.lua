@@ -1,30 +1,38 @@
+local function builtin(name, opts)
+    return function()
+        require("telescope.builtin")[name](type(opts) == "function" and opts() or opts)
+    end
+end
+
 return {
     "nvim-telescope/telescope.nvim",
-
-    tag = "0.1.5",
-
-    dependencies = {
-        "nvim-lua/plenary.nvim"
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = "Telescope",
+    opts = {},
+    keys = {
+        { "<leader>pf", builtin("find_files"), desc = "Find files" },
+        { "<C-p>", builtin("git_files"), desc = "Find git files" },
+        {
+            "<leader>ps",
+            builtin("grep_string", function()
+                return { search = vim.fn.input("Grep > ") }
+            end),
+            desc = "Grep",
+        },
+        {
+            "<leader>pws",
+            builtin("grep_string", function()
+                return { search = vim.fn.expand("<cword>") }
+            end),
+            desc = "Grep word under cursor",
+        },
+        {
+            "<leader>pWs",
+            builtin("grep_string", function()
+                return { search = vim.fn.expand("<cWORD>") }
+            end),
+            desc = "Grep WORD under cursor",
+        },
+        { "<leader>vh", builtin("help_tags"), desc = "Search help" },
     },
-
-    config = function()
-        require('telescope').setup({})
-
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-        vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-        vim.keymap.set('n', '<leader>pws', function()
-            local word = vim.fn.expand("<cword>")
-            builtin.grep_string({ search = word })
-        end)
-        vim.keymap.set('n', '<leader>pWs', function()
-            local word = vim.fn.expand("<cWORD>")
-            builtin.grep_string({ search = word })
-        end)
-        vim.keymap.set('n', '<leader>ps', function()
-            builtin.grep_string({ search = vim.fn.input("Grep > ") })
-        end)
-        vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
-    end
 }
-
