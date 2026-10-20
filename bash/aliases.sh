@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Git
 alias ga='git add'
 alias gap='ga --patch'

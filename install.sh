@@ -4,7 +4,7 @@
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}"
+CONFIG="$HOME/.config"  # fixed, not $XDG_CONFIG_HOME: tmux.conf and bashrc.sh reference it
 PACKAGES=(bash git nvim starship tmux)
 DEPENDENCIES=(git nvim tmux starship fzf rg node lazygit gh)
 
@@ -38,16 +38,14 @@ if command -v tmux >/dev/null; then
     tpm_dir="$CONFIG/tmux/plugins/tpm"
     [[ -d "$tpm_dir" ]] || git clone --depth 1 https://github.com/tmux-plugins/tpm "$tpm_dir"
     # TPM needs a running server; use a throwaway session so existing sessions are untouched
-    tmux new-session -d -s tpm-install
+    tmux has-session -t tpm-install 2>/dev/null || tmux new-session -d -s tpm-install
     "$tpm_dir/bin/install_plugins"
     tmux kill-session -t tpm-install
 fi
 
 # Dependencies are only reported, not installed
-missing=()
+missing=""
 for cmd in "${DEPENDENCIES[@]}"; do
-    command -v "$cmd" >/dev/null || missing+=("$cmd")
+    command -v "$cmd" >/dev/null || missing="$missing $cmd"
 done
-if (( ${#missing[@]} )); then
-    echo "missing dependencies: ${missing[*]}"
-fi
+[[ -z "$missing" ]] || echo "missing dependencies:$missing"

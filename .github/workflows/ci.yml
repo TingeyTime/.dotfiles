@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: shellcheck -x install.sh bash/*.sh
+      - name: stylua
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: 2.3.1
+          args: --check nvim/
+
+  install:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run install.sh twice in a fresh home
+        run: |
+          export HOME="$RUNNER_TEMP/home"
+          mkdir -p "$HOME/.config/nvim"
+          touch "$HOME/.bashrc"
+          ./install.sh
+          ./install.sh
+      - name: Verify links, backup, and bashrc hook
+        run: |
+          HOME="$RUNNER_TEMP/home"
+          for pkg in bash git nvim starship tmux; do
+            test "$(readlink "$HOME/.config/$pkg")" = "$PWD/$pkg"
+          done
+          ls -d "$HOME"/.config/nvim.backup.*
+          test "$(grep -c 'bash/bashrc.sh' "$HOME/.bashrc")" -eq 1
+
+  nvim:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+      - name: Link config and install locked plugins
+        run: |
+          mkdir -p ~/.config
+          ln -s "$PWD/nvim" ~/.config/nvim
+          nvim --headless "+Lazy! restore" +qa
+      - name: Smoke test
+        run: nvim --headless -c "luafile nvim/test/smoke.lua"
